@@ -36,20 +36,20 @@ namespace Console_DotnetCore
 
                 for (int i = 0; i < _possibleSchedules.Count; i++)
                 {
-                    var index = 0;
-                    var newX = string.Empty;
-                    _workHoursByDay.ForEach(y =>
+                    var flexibleHourIndex = 0;
+                    var tempSchedule = string.Empty;
+                    _workHoursByDay.ForEach(workHour =>
                     {
-                        if (y.HasValue)
-                            newX += y.ToString();
+                        if (workHour.HasValue)
+                            tempSchedule += workHour.ToString();
                         else
                         {
-                            newX += _possibleSchedules[i][index];
-                            index++;
+                            tempSchedule += _possibleSchedules[i][flexibleHourIndex];
+                            flexibleHourIndex++;
                         }
                     });
 
-                    _possibleSchedules[i] = newX;
+                    _possibleSchedules[i] = tempSchedule;
                 }
 
                 return _possibleSchedules;
@@ -58,7 +58,7 @@ namespace Console_DotnetCore
             public List<string> FindAllFlexibleHours(int targetHours, int maxDayHours, int days)
             {
                 maxDayHours = Math.Min(targetHours, maxDayHours);
-                
+
                 if (targetHours / days > maxDayHours)
                     return null;
 
@@ -79,7 +79,7 @@ namespace Console_DotnetCore
                             list.Add($"{currentDayHour}{tempSchedules[j]}");
                         }
                     }
-                    
+
                     currentDayHour++;
                 }
 
